@@ -27,10 +27,7 @@ class Crane
 
   def initialize(stacks)
     @stacks = stacks
-    puts '-------------'
-    puts 'Initial state'
-    puts '-------------'
-    pretty_print
+    print_state(:initial)
   end
 
   def process(moves)
@@ -41,16 +38,28 @@ class Crane
       crates = stack_from.take(move.amount)
       stack_to.insert(crates)
 
-      38.times do
-        puts "\n"
-      end
-      pretty_print
-      puts '-------------'
-      puts move.source
-      puts '-------------'
-
-      sleep(0.2)
+      print_move(move, animation_interval: 0.01)
     end
+    print_state(:final)
+  end
+
+  def print_state(state)
+    puts '-------------'
+    puts "#{state.capitalize} state"
+    puts '-------------'
+    pretty_print
+  end
+
+  def print_move(move, animation_interval: 0.0)
+    38.times do
+      puts "\n"
+    end
+    pretty_print
+    puts '-------------'
+    puts move.source
+    puts '-------------'
+
+    sleep(animation_interval)
   end
 
   def tops
