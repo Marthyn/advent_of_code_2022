@@ -41,10 +41,15 @@ class Crane
       crates = stack_from.take(move.amount)
       stack_to.insert(crates)
 
+      38.times do
+        puts "\n"
+      end
+      pretty_print
       puts '-------------'
       puts move.source
       puts '-------------'
-      pretty_print
+
+      sleep(0.2)
     end
   end
 
