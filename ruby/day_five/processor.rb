@@ -1,4 +1,5 @@
 require 'pry'
+require '../../utils/colors'
 file = File.open('input.txt')
 input = file.read
 
@@ -38,7 +39,7 @@ class Crane
       crates = stack_from.take(move.amount)
       stack_to.insert(crates)
 
-      print_move(move, animation_interval: 0.01)
+      print_move(move)
     end
     print_state(:final)
   end
@@ -115,4 +116,6 @@ moves = input.split(/\n/).map { |string| Move.new(string) }
 
 crane.process(moves)
 puts "--- RESULT ---"
-puts crane.tops.join
+result = crane.tops.join
+
+puts result.public_send(result == 'MHQTLJRLB' ? :green : :red)
