@@ -14,4 +14,4 @@ To participate as well, check https://adventofcode.com/2022
 
 ### Day 5 Crane Ascii Animation
 
-[![asciicast](https://asciinema.org/a/542810.png)](https://asciinema.org/a/542810)
+[![asciicast](https://asciinema.org/a/542810.png)](https://asciinema.org/a/542810?startAt=3)
