@@ -10,11 +10,11 @@ class Stack
   end
 
   def insert(crate)
-    crates.push(crate)
+    crates.push(crate).flatten!
   end
 
-  def take
-    crates.pop
+  def take(amount)
+    crates.pop(amount)
   end
 
   def pretty
@@ -31,9 +31,7 @@ class Crane
 
   def process(moves)
     moves.each do |move|
-      move.amount.times do
-        stacks[move.stack_to].insert(stacks[move.stack_from].take)
-      end
+      stacks[move.stack_to].insert(stacks[move.stack_from].take(move.amount))
     end
   end
 
