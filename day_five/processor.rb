@@ -1,3 +1,7 @@
+require 'pry'
+file = File.open('input.txt')
+input = file.read
+
 class Stack
   attr_reader :crates
 
@@ -19,35 +23,18 @@ class Stack
 end
 
 class Crane
-  attr_reader :stack_one, :stack_two, :stack_three
+  attr_reader :stacks
 
-  def initialize(stack_one, stack_two, stack_three)
-    @stack_one = stack_one
-    @stack_two = stack_two
-    @stack_three = stack_three
-    @stacks = [@stack_one, @stack_two, @stack_three]
+  def initialize(stacks)
+    @stacks = stacks
   end
 
-  def process(input)
-    print
-
-    3.times do
-      stack_three.insert(stack_one.take)
+  def process(moves)
+    moves.each do |move|
+      move.amount.times do
+        stacks[move.stack_to].insert(stacks[move.stack_from].take)
+      end
     end
-
-    print
-
-    2.times do
-      stack_one.insert(stack_two.take)
-    end
-
-    print
-
-    1.times do
-      stack_two.insert(stack_one.take)
-    end
-
-    print
   end
 
   def tops
@@ -55,27 +42,41 @@ class Crane
   end
 
   def print
-    puts stack_one.pretty
-    puts '1'
-    puts stack_two.pretty
-    puts '2'
-    puts stack_three.pretty
-    puts '3'
+    stacks.each_with_index do |stack, index|
+      puts stack.pretty
+      puts index
+    end
   end
 end
 
-one = Stack.new(['D', 'N', 'Z'])
-two = Stack.new(['C', 'M'])
-three = Stack.new(['P'])
+class Move
+  attr_reader :amount, :stack_from, :stack_to
+  def initialize(string)
+    numbers = string.scan(/\d+/)
 
-crane = Crane.new(one, two, three)
-crane.process('')
+    raise 'invalid move' unless numbers.length == 3
+
+    @amount = numbers[0].to_i
+    @stack_from = numbers[1].to_i - 1
+    @stack_to = numbers[2].to_i - 1
+  end
+end
+
+stacks = [
+  Stack.new(%w(W L S)),
+  Stack.new(%w(Q N T J)),
+  Stack.new(%w(J F H C S)),
+  Stack.new(%w(B G N W M R T)),
+  Stack.new(%w(B Q H D S L R T)),
+  Stack.new(%w(L R H F V B J M)),
+  Stack.new(%w(M J N R W D)),
+  Stack.new(%w(J D N H F T Z B)),
+  Stack.new(%w(T F B N Q L H)),
+]
+
+crane = Crane.new(stacks)
+moves = input.split(/\n/).map { |string| Move.new(string) }
+
+crane.process(moves)
 puts "--- RESULT ---"
 puts crane.tops.join
-
-# stack_one = Stack.new(['W', 'L', 'S'])
-# stack_one = Stack.new(['W', 'L', 'S'])
-# stack_one = Stack.new(['W', 'L', 'S'])
-# stack_one = Stack.new(['W', 'L', 'S'])
-# stack_one = Stack.new(['W', 'L', 'S'])
-# stack_one = Stack.new(['W', 'L', 'S'])
