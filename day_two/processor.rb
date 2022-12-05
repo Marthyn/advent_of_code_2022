@@ -8,9 +8,13 @@ class Round
   OPPONENT_PAPER = 'B'.freeze
   OPPONENT_SCISSORS = 'C'.freeze
 
-  ME_ROCK = 'X'.freeze
-  ME_PAPER = 'Y'.freeze
-  ME_SCISSORS = 'Z'.freeze
+  EXPECTED_LOSS = 'X'.freeze
+  EXPECTED_DRAW = 'Y'.freeze
+  EXPECTED_WIN = 'Z'.freeze
+
+  ME_ROCK = 'D'.freeze
+  ME_PAPER = 'E'.freeze
+  ME_SCISSORS = 'F'.freeze
 
   WIN = 'win'.freeze
   DRAW = 'draw'.freeze
@@ -25,11 +29,28 @@ class Round
     LOSS => 0
   }.freeze
 
-  attr_reader :opponent_move, :my_move
+  attr_reader :opponent_move, :my_move, :expected_result
 
   def initialize(moves)
     @opponent_move = moves.split.first
-    @my_move = moves.split.last
+    @expected_result = moves.split.last
+  end
+
+  def my_move
+    case expected_result
+    when EXPECTED_LOSS
+      return ME_ROCK if opponent_move == OPPONENT_PAPER
+      return ME_PAPER if opponent_move == OPPONENT_SCISSORS
+      return ME_SCISSORS if opponent_move == OPPONENT_ROCK
+    when EXPECTED_DRAW
+      return ME_ROCK if opponent_move == OPPONENT_ROCK
+      return ME_PAPER if opponent_move == OPPONENT_PAPER
+      return ME_SCISSORS if opponent_move == OPPONENT_SCISSORS
+    when EXPECTED_WIN
+      return ME_ROCK if opponent_move == OPPONENT_SCISSORS
+      return ME_PAPER if opponent_move == OPPONENT_ROCK
+      return ME_SCISSORS if opponent_move == OPPONENT_PAPER
+    end
   end
 
   def result
