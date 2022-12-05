@@ -17,8 +17,8 @@ class Stack
     crates.pop(amount)
   end
 
-  def pretty
-    crates.reverse.map { |x| "[#{x}]"}
+  def pretty_print
+    crates.reverse.map { |crate| "[#{crate}]"}
   end
 end
 
@@ -27,11 +27,24 @@ class Crane
 
   def initialize(stacks)
     @stacks = stacks
+    puts '-------------'
+    puts 'Initial state'
+    puts '-------------'
+    pretty_print
   end
 
   def process(moves)
     moves.each do |move|
-      stacks[move.stack_to].insert(stacks[move.stack_from].take(move.amount))
+      stack_from = stacks[move.stack_from]
+      stack_to   = stacks[move.stack_to]
+
+      crates = stack_from.take(move.amount)
+      stack_to.insert(crates)
+
+      puts '-------------'
+      puts move.source
+      puts '-------------'
+      pretty_print
     end
   end
 
@@ -39,21 +52,32 @@ class Crane
     @stacks.map { |stack| stack.crates.last }
   end
 
-  def print
-    stacks.each_with_index do |stack, index|
-      puts stack.pretty
-      puts index
+  def columns_count
+    @columns_count ||= 0..(stacks.length - 1)
+  end
+
+  def pretty_print
+    rows_count = 0..(stacks.map(&:crates).map(&:size).max)
+    rows_count.to_a.reverse.each do |row|
+      columns_count.each do |column|
+        crates = stacks[column].crates
+        crate = crates[row]
+        crate ? print("[#{crate}]\t") : print("\t")
+      end
+      print "\n"
     end
+    puts " #{(1..(columns_count.size)).to_a.join(" \t ")}"
   end
 end
 
 class Move
-  attr_reader :amount, :stack_from, :stack_to
+  attr_reader :amount, :stack_from, :stack_to, :source
   def initialize(string)
     numbers = string.scan(/\d+/)
 
     raise 'invalid move' unless numbers.length == 3
 
+    @source = string
     @amount = numbers[0].to_i
     @stack_from = numbers[1].to_i - 1
     @stack_to = numbers[2].to_i - 1
