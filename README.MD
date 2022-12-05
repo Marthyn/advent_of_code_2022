@@ -9,3 +9,9 @@ To participate as well, check https://adventofcode.com/2022
 - `cd` to day_<day>
 - run `ruby processor.rb`
 - the output should be printed!
+
+## Extra
+
+### Day 5 Crane Ascii Animation
+
+[![asciicast](https://asciinema.org/a/542810.png)](https://asciinema.org/a/542810)
