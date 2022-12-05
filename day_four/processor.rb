@@ -19,6 +19,10 @@ class Duty
   def cover?
     worker_one.cover?(worker_two) || worker_two.cover?(worker_one)
   end
+
+  def overlap?
+    worker_one.to_a.any? { |worker| worker_two.include?(worker) } || worker_two.to_a.any? { |worker| worker_one.include?(worker) }
+  end
 end
 
 duties = input.split(/\n/).map do |line|
@@ -26,3 +30,4 @@ duties = input.split(/\n/).map do |line|
 end
 
 puts duties.select(&:cover?).count
+puts duties.select(&:overlap?).count
