@@ -10,14 +10,15 @@ class Processor
     @datastream = input.chars
   end
 
-  def first_unique_set_of_four
+  def first_unique_set_of(size)
     (0..datastream.size).find do |i|
-      set = @datastream[i..i+13]
+      set = @datastream[i..i+(size - 1)]
       if set.uniq.size == set.size
-        return (i + 14)
+        return (i + size)
       end
     end
   end
 end
 
-puts Processor.new(input).first_unique_set_of_four
+puts Processor.new(input).first_unique_set_of(4)
+puts Processor.new(input).first_unique_set_of(14)
