@@ -3,6 +3,12 @@ require '../../utils/colors'
 file = File.open('input.txt')
 input = file.read
 
+class Array
+  def uniq?
+    self.uniq.size == self.size
+  end
+end
+
 class Processor
   attr_reader :datastream
 
@@ -12,10 +18,9 @@ class Processor
 
   def first_unique_set_of(size)
     (0..datastream.size).find do |i|
-      set = @datastream[i..i+(size - 1)]
-      if set.uniq.size == set.size
-        return (i + size)
-      end
+      set_range = i..(i+(size - 1))
+      position = i + size
+      return position if @datastream[set_range].uniq?
     end
   end
 end
