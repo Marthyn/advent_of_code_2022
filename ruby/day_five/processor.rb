@@ -77,11 +77,11 @@ class Crane
       columns_count.each do |column|
         crates = stacks[column].crates
         crate = crates[row]
-        crate ? print("[#{crate}]\t") : print("\t")
+        crate ? print("[#{crate}]\t".ukrainian) : print("\t")
       end
       print "\n"
     end
-    puts " #{(1..(columns_count.size)).to_a.join(" \t ")}"
+    puts " #{(1..(columns_count.size)).to_a.join(" \t ")}".ukrainian
   end
 end
 

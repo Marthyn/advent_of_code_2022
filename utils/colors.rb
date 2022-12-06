@@ -1,4 +1,8 @@
 class String
+  COLORS = %i[red green brown blue magenta cyan gray]
+
+  def random_color; public_send(COLORS.sample) end
+  def ukrainian; public_send(%i[brown blue].sample) end
   def black;          "\e[30m#{self}\e[0m" end
   def red;            "\e[31m#{self}\e[0m" end
   def green;          "\e[32m#{self}\e[0m" end
